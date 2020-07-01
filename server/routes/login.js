@@ -8,7 +8,7 @@ app.post('/login', function (req, res) {
 
     let body = req.body;
 
-    Usuario.findOne({ email: body.email }, (erro, usuarioDB)=>{
+    Usuario.findOne({ email: body.email }, (erro, usuarioDB) => {
         if (erro) {
             return res.status(500).json({
                 ok: false,
@@ -24,10 +24,10 @@ app.post('/login', function (req, res) {
                     message: "Usuario o contraseña incorrectos"
                 }
             })
-        } 
+        }
 
         // Valida que la contraseña escrita por el usuario, sea la almacenada en la db
-        if (! bcrypt.compareSync(body.password, usuarioDB.password)){
+        if (!bcrypt.compareSync(body.password, usuarioDB.password)) {
             return res.status(400).json({
                 ok: false,
                 err: {

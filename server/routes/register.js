@@ -3,34 +3,42 @@ const bcrypt = require('bcrypt');
 const Usuario = require('./../models/usuario');
 const app = express();
 
- 
+
 app.post('/register', function (req, res) {
-    let body = req.body;
+  let body = req.body;
 
-    let { nombre, email, password, role } = body;
-    let usuario = new Usuario({
-      nombre,
-      email,
-      password: bcrypt.hashSync(password, 10),
-      role
-    });
+  let { nombre, email, password, role } = body;
+  let usuario = new Usuario({
+    nombre,
+    email,
+    password: bcrypt.hashSync(password, 10),
+    role
+  });
 
-    usuario.save((err, usuarioDB) => {
-      if (err) {
-          return res.status(400).json({
-              ok: false,
-              err,
-          });
-      }
+  usuario.save((err, usuarioDB) => {
+    if (err) {
 
-      
-
-      res.json({
-          ok: true,
-          usuario: usuarioDB
+      res.redirect('/?r=false');
+      return;
+      /*
+      return res.status(400).json({
+        ok: false,
+        err,
       });
+      */
+    }
 
-    })
+
+
+    res.redirect('/?r=true');
+    return;
+    /*
+    res.json({
+      ok: true,
+      usuario: usuarioDB
+    });
+*/
+  })
 });
 
 
